@@ -1,6 +1,7 @@
 # javascript从入门到进阶的知识点
 ## js基础
 * 如何理解javaScript栈内存和堆内存
+>> javascript 变量分为基本类型和引用类型
 ## js面试题汇总
 > 1. js深拷贝
 
