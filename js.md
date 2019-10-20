@@ -1,4 +1,6 @@
 # javascript从入门到进阶的知识点
+## js基础
+> + 如何理解javaScript栈内存和堆内存
 ## js面试题汇总
 > 1. js深拷贝
 
