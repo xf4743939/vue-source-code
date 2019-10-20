@@ -8,12 +8,10 @@
       c = c || {}
       for (let i in p) {
         if (p.hasOwnProperty(i)) {
-          debugger
           if (typeof p[i] === 'object') {
             c[i] = Array.isArray(p[i]) ? [] : {}
             deepCopy(p[i], c[i])
-          } else {
-            
+          } else {       
             c[i] = p[i]
           }
         }
