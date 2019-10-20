@@ -1,6 +1,6 @@
 # javascript从入门到进阶的知识点
 ## js面试题汇总
-1.js深拷贝
+> 1.js深拷贝
 
   ```
   // JavaScript面向对象编程指南
