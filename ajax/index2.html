@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call的实现原理</title>
+</head>
+
+<body>
+  <script>
+    Function.prototype.call2 = function (context) {
+      var context = context || window
+      context.fn = this // this 指向调用者函数
+      var args = []
+      // 解决不定参数问题
+      for (var i = 1, len = arguments.length; i < len; i++) {
+        args.push('arguments[' + i + ']')
+      }
+      // 可计算某个字符串，并执行其中的javascript代码
+      var result = eval('context.fn(' + args + ')')
+      delete context.fn
+      return result
+    }
+    // getAge.call2(person, 'tian', 'men')
+    Function.prototype.apply2 = function (context, arr) {
+      var context = context || window
+      context.fn = this
+      var result;
+      if (!arr) {
+        result = context.fn()
+      } else {
+        var args = []
+        for (var i = 0, len = arr.length; i < len; i++) {
+          args.push('arr[' + i + ']')
+          result = eval('context.fn(' + args + ')')
+        }
+        delete context.fn
+        return result
+      }
+    }
+
+    /* **深入理解bind ** */
+    Function.prototype.bind2 = function (context) {
+      if (typeof this !== 'function') {
+        throw new Error('Function.prototype.bind -what is trying to fBound is not callable')
+      }
+      var self = this
+      var args = Array.prototype.slice.call(arguments, 1)
+      var fNOP = function () {}
+      var fBound = function () {
+        var bindArgs = Array.prototype.slice.call(arguments)
+        return self.apply(this instanceof fBound ? this : context, args.concat(bindArgs))
+      }
+      fNOP.prototype = this.prototype
+
+      fBound.prototype = new fNOP()
+      return fBound
+    }
+  </script>
+</body>
+
+</html>
