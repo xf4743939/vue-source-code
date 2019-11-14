@@ -10,56 +10,9 @@
 
 <body>
   <script>
-    Function.prototype.myCall = function (obj) {
-      obj = obj || window
-      // 给对象添加一个属性 fn
-      obj.fn = this
-      var args = []
-      for (var i = 1; i < arguments.length; i++) {
-        args.push('arguments[' + i + ']')
-      }
-      // 对象添加一个属性只向他本身
-      var result = eval('obj.fn(' + args + ')')
-      // 然后调用
-      delete obj.fn
-      return result
-    }
-    Function.prototype.myApply = function (obj, arr) {
-      obj = obj || window
-      var result;
-      obj.fun = this
-      if (!arr) {
-        result = obj.fun()
-      } else {
-        var args = []
-        for (var i = 0; i < arr.length; i++) {
-          args.push('arr[' + i + ']')
-        }
-        result = eval('obj.fun(' + args + ')')
-      }
-      delete obj.fun
-      return result
-    }
-    /* ***** */
-    Function.prototype.bind2 = function (context) {
-      
-      var self = this
-      var args = Array.prototype.slice.call(arguments, 1)
-      return function () {
-        
-        return self.apply(context)
-      }
-    }
-    var foo = {
-      value: 1
-    }
+   function    
 
-    function bar() {
 
-      return this.value
-    }
-    var bindFoo = bar.bind2(foo)
-    bindFoo()
   </script>
 </body>
 
