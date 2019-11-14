@@ -9,6 +9,14 @@
    - let const 当前块有效,执行到块外被销毁,不变量提升,不能重复申明
   
 >> ![内存分配](https://img-blog.csdn.net/20141212220233511?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGRkMTk5MTA1MDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
+ 2. 前端性能优化
+    1. dns是否可以通过缓存减少dns查询时间?
+    2. 网络请求的过程走最近的网络环境?
+    3. 相同的静态资源是否可以缓存? 
+    4. 能否减少请求http请求大小
+    5. 减少http请求
+    6. 服务端渲染
 ---
 - js浏览器渲染及EventLoop
  * 浏览器渲染过程 *
