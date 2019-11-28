@@ -10,9 +10,51 @@
 
 <body>
   <script>
-   function    
+    var arr = [1, [2, 3],
+      [{
+        name: "123",
+        age: "123"
+      }, 10, 15]
+    ]
 
+    function flatten(arr) {
+      var arr = arr || [],
+        res = [],
+        len = arr.length;
+      for (let i = 0; i < len; i++) {
+        if (Array.isArray(arr[i])) {
+          res = res.concat(arr[i])
+        } else {
+          res.push(arr[i])
+        }
+      }
+      return res
+    }
 
+    function isArray(obj) {
+      return Object.prototype.toString.call(obj) == '[object Array]'
+    }
+    console.log(flatten(arr))
+
+    Array.prototype.flatten = function () {
+      var res = []
+      this.forEach(function (item) {
+        Object.prototype.toString.call(item) === '[object Array]' ? res = res.concat(item.flatten()) : res.push(
+          item)
+      })
+      return res
+    }
+
+    function flatten(arr) {
+      arr = arr || []
+      return arr.reduce(function (pre, next) {
+        return Object.prototype.toString.call(next) == '[object Array]' ? pre.concat(flatten(next)) : pre.concat(
+          next)
+      }, [])
+    }
+    console.log(flatten(arr))
+    // flatten()
+    // console.log(arr)
   </script>
 </body>
 
