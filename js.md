@@ -153,4 +153,43 @@
       return fBound
     }
   ```
+  4.数组扁平化
+  ```JS
+    // 1. 常规
+    function flatten(arr) {
+      var arr = arr || [],
+        res = [],
+        len = arr.length;
+      for (let i = 0; i < len; i++) {
+        if (Array.isArray(arr[i])) {
+          res = res.concat(arr[i])
+        } else {
+          res.push(arr[i])
+        }
+      }
+      return res
+    }
+    // 2.优雅点
+    Array.prototype.flatten = function () {
+      var res = []
+      this.forEach(function (item) {
+        Object.prototype.toString.call(item) === '[object Array]' ? res = res.concat(item.flatten()) : res.push(
+          item)
+      })
+      return res
+    }
+    // 3.进阶
+    function flatten(arr) {
+      arr = arr || []
+      return arr.reduce(function (pre, next) {
+        return Object.prototype.toString.call(next) == '[object Array]' ? pre.concat(flatten(next)) : pre.concat(
+          next)
+      }, [])
+    }
+    // 4. es6
+  const flatten = arr => arr.reduce((prev, next) => {
+    return Object.prototype.toString.call(next) === '[object Array]' ? 
+      prev.concat(flatten(next)) : prev.concat(next)},
+   [])
+  ```
 
