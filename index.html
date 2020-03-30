@@ -7,15 +7,19 @@
   </head>
   <body>
     <script>
-      var a = 1
-      var test = () => {
-        console.log(this.a)
-      }
-      var obj = {
-        a: 2,
-        test
-      }
-      obj.test()
+       var i=10;
+       function a(){
+         debugger
+         i=20
+         console.log(20)
+         for(var i=0;i<6;i++){
+           console.log(i)
+         }
+         console.log(this.i)
+         console.log(i)
+       }
+       a()
+       console.log(i)
     </script>
   </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IntersectionObserver 实现懒加载</title>
+    <style>
+      .container {
+        min-height: 400px;
+        width: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      ul {
+        width: 1155px;
+        margin: 0 auto;
+        list-style: none;
+      }
+      li {
+        width: 230px;
+        height: 288px;
+        float: left;
+        position: relative;
+        display: block;
+        margin: -1px 0 0 -1px;
+        background: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+       <ul>
+           <li>
+             <img src="" alt="">
+           </li>
+       </ul>
+    </div>
+  </body>
+</html>

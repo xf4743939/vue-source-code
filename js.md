@@ -244,6 +244,33 @@ const flatten = arr => arr.reduce((prev, next) => {
       console.log(a) // 1
   }
   f1.call()
+  ---
+  // 1.匿名函数this总指向window 对象
+  var val=1
+  var obj={
+    val:2,
+    db1:function(){
+      console.log(this)
+      this.val*=2
+      console.log(val)
+      console.log(this.val)
+    }
+  }
+  var ff=obj.db1()
+  var fn=obj.db1;fn()
+  ---
+  +function(){
+      console.log(a)
+      var a=5;
+      function a(){}
+        console.log(a)
+        function b(){}
+         b=6
+         console.log(b)
+         var c=d=b
+    }()
+    console.log(d)
+    console.log(c)
 ```
 
 6.this 指向问题
