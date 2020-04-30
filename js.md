@@ -166,6 +166,13 @@ Function.prototype.bind2 = function(context) {
   fBound.prototype = new fNOP()
   return fBound
 }
+Function.prototype.bind= Function.prototype.bind || function(...res1){
+      const self=this
+      const context=res1.shift()
+      return function (...res2){
+        return  self.apply(context,[...res1,...res2])
+      }
+    }
 ```
 
 4.数组扁平化

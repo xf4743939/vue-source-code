@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>js前端算法排序</title>
+  </head>
+  <body>
+    <!-- <script src="./fast.js"></script> -->
+    <!-- <script src="./bubble.js"></script> -->
+    <script>
+      let arr = [6, 1, 2, 7, 9, 3, 4, 5, 10, 8]
+      console.log(mergeSort(arr))
+      function mergeSort(arr) {
+        if (arr.length < 2) {
+          return arr
+        }
+        const mid = Math.floor(arr.length / 2)
+        const front = arr.slice(0, mid)
+        const end = arr.slice(mid)
+        return merge(mergeSort(front), mergeSort(end))
+      }
+      function merge(front, end) {
+        const temp = []
+        while (front.length && end.length) {
+          if (front[0] < end[0]) {
+            temp.push(front.shift())
+          } else {
+            temp.push(end.shift())
+          }
+        }
+        while (front.length) {
+          temp.push(front.shift())
+        }
+        while (end.length) {
+          temp.push(end.shift())
+        }
+        return temp
+      }
+    </script>
+  </body>
+</html>
