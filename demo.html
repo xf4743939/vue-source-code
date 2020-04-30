@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>做一些案例</title>
+  </head>
+  <body>
+    <script>
+      function addMethod(obj, name, fn) {
+        let old = obj[name]
+
+        obj[name] = function () {
+          
+          if (fn.length === arguments.length) {
+            return fn.apply(this, arguments)
+          } else if (typeof old === 'function') {
+            return old.apply(this, arguments)
+          }
+        }
+      }
+      var a = {}
+      addMethod(a, 'test', function (x) {
+        
+        console.log(x)
+      })
+      addMethod(a, 'test', function (x, y) {
+        console.log(x + y)
+      })
+      addMethod(a, 'test', function (x, y, z) {
+        console.log(x + y + z)
+      })
+      console.log(a)
+      a.test(1)
+      a.test(1,2)
+      a.test(1,2,3)
+    </script>
+  </body>
+</html>

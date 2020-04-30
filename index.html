@@ -98,6 +98,19 @@
           let dright = this.getDeep(node.right, deep)
           return Math.max(dleft, dright)
         },
+        getNode: function (data, node) {
+          if (node) {
+            if(data === node.data){
+              return node
+            }else if(data<node.data){
+              return this.getNode(data,node.left)
+            }else {
+              return this.getNode(data,node.right)
+            }
+          } else {
+            return null
+          }
+        },
       }
       let t = new Tree()
       t.insert(3)
@@ -108,11 +121,8 @@
       t.insert(7)
       t.insert(6)
       t.insert(0)
-      console.log(t)
-      // t.middleOrder(t.root);
-      console.log(t.getMin(), t.getMax())
+
       console.log(t.getDeep(t.root, 0))
-  
     </script>
   </body>
 </html>
