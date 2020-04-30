@@ -76,7 +76,7 @@ function ajax(param) {
     xhr.open(param.type, param.url, true)
     xhr.send(JSON.stringify(param.data))
   }
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     // 0 未初始化未调用open
     // 1.启动 调用open 未调用 send
     // 2. 发送 已调用send() 但是未响应
@@ -115,7 +115,7 @@ function ajax(param) {
 
 ```js
 // call 实现
-Function.prototype.call2 = function(context) {
+Function.prototype.call2 = function (context) {
   var context = context || window
   context.fn = this // this 指向调用者函数
   var args = []
@@ -129,7 +129,7 @@ Function.prototype.call2 = function(context) {
   return result
 }
 // apply 实现
-Function.prototype.myApply = function(obj, arr) {
+Function.prototype.myApply = function (obj, arr) {
   obj = obj || window
   var result
   obj.fun = this
@@ -146,7 +146,7 @@ Function.prototype.myApply = function(obj, arr) {
   return result
 }
 //  bind 实现
-Function.prototype.bind2 = function(context) {
+Function.prototype.bind2 = function (context) {
   if (typeof this !== 'function') {
     throw new Error(
       'Function.prototype.bind -what is trying to fBound is not callable'
@@ -154,8 +154,8 @@ Function.prototype.bind2 = function(context) {
   }
   var self = this
   var args = Array.prototype.slice.call(arguments, 1)
-  var fNOP = function() {}
-  var fBound = function() {
+  var fNOP = function () {}
+  var fBound = function () {
     var bindArgs = Array.prototype.slice.call(arguments)
     return self.apply(
       this instanceof fBound ? this : context,
@@ -293,4 +293,40 @@ const flatten = arr => arr.reduce((prev, next) => {
       test
   }
   obj.test()
+```
+
+7.观察者模式
+
+```JS
+class Subject{
+  constructor(){
+    this.state=0
+    this.observers=[]
+  }
+  getState(){
+    return this.state
+  }
+  setState(state){
+    this.state=state
+    this.notifyAllObservers()
+  }
+  notifyAllObservers(){
+    this.observers.forEach(observer => {
+      observer.update()
+    });
+  }
+  attach(observer){
+    this.observers.push(observer)
+  }
+}
+class Observer{
+  constructor(name,subject){
+     this.name=name
+     this.subject=subject
+     this.subject.attach(this)
+  }
+  update(){
+    console.log('更新视图啦')
+  }
+}
 ```
