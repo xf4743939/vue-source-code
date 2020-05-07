@@ -4,9 +4,7 @@
 
 ### 初始化及挂载
 
-1. 在 _new Vue()_ 后 Vue 会调用*\_init* 函数进行初始化,会初始化生命周期、事件、props、methods、data、computed、watch 等 其中最重要的是*Object.defineProperty* 设置 setter 与 getter 函数，用来实现*响应式*以及*依赖收集*。
-   初始化后调用\$mount 会挂载组件，若果是运行时编译，即不存在 render function 但是存在 template,则需要**编译**步骤
-   ===
+1. 在 new Vue() 后 Vue 会调用 init 函数进行初始化,会初始化生命周期、事件、props、methods、data、computed、watch 等 其中最重要的是 Object.defineProperty 设置 setter 与 getter 函数，用来实现响应式以及依赖收集。初始化后调用$mount 会挂载组件，若果是运行时编译，即不存在 render function 但是存在 template,则需要编译步骤
 
 ### 编译(complie)
 
@@ -58,5 +56,5 @@
 
      1. 实现一个数据监听器Observer,能够对数据对象的所有属性进行监听,如果有变动可拿到最新值并通知订阅者
      2. 实现一个指令解析器Compile,对每个元素节点的指令进行扫描和解析,根据指令模板替换数据，以及绑定相应的更新函数
-     3. 实现一个watcher,作为连接Observer和compile的桥梁，能够订阅并收到每个每个属性变动的通知，执行指令绑定相应回调函数,从而更新视图
-     ![双向绑定](https://image-static.segmentfault.com/132/184/132184689-57b310ea1804f_articlex)
+     3. 实现一个watcher,作为连接Observer和compile的桥梁，能够订阅并收到每个每个属性变动的通知，执行指令绑定相应回调函数,从而更新视图     
+`![双向绑定](https://image-static.segmentfault.com/132/184/132184689-57b310ea1804f_articlex)`
