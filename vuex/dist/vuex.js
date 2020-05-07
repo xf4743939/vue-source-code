@@ -557,7 +557,7 @@
     // reset vm
     resetStoreVM(store, state, hot);
   }
-
+/* 使用内部响应注册state */
   function resetStoreVM (store, state, hot) {
     var oldVm = store._vm;
 
