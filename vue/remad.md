@@ -3,7 +3,7 @@
 ## vue.js 运行机制全局预览
   ### 初始化及挂载
      
-  1. 在 *new Vue()* 后 Vue 会调用*_init* 函数进行初始化,会初始化生命周期、事件、props、methods、data、computed、watch 等 其中最重要的是*Object.defineProperty* 设置 setter 与 getter 函数，用来实现*响应式*以及*依赖收集*。 
+  1. 在 *new Vue()* 后 Vue 会调用*_init* 函数进行初始化,会初始化生命周期(initLifecycle)、事件(initEvents)、initRender、props、methods、data、computed、watch 等 其中最重要的是*Object.defineProperty* 设置 setter 与 getter 函数，用来实现*响应式*以及*依赖收集*。 
   初始化后调用$mount 会挂载组件，若果是运行时编译，即不存在 render function 但是存在 template,则需要**编译**步骤 
   ===
   ### 编译(complie)
@@ -36,6 +36,7 @@
    1. 为什么要依赖收集?  
       依赖收集会让字段(text)知道有几个地方依赖我的数据，我变化的时候需要通知它们。
       最终会形成数据与视图的一种对应关系
-
+      
+## 慕课网vue源码视频讲解
 
 
