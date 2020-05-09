@@ -1,9 +1,15 @@
-function Watcher(vm, expOrfn, cb) {
+/**Watcher 主要做的事情
+ *1. 在自身实例化时往属性订阅器(dep)里面添加自己
+ *2. watcher自身必须有一个update()方法
+ *3. 属性变动dep.notice 通知时 ，能调用自身update()方法，并触发compile中绑定的回调。
+ */
+
+function Watcher(vm, expOrFn, cb) {
   this.cb = cb
   this.vm = vm
-  this.expOrfn = expOrfn
+  this.expOrFn = expOrFn
   this.depIds = {}
-  if (typeof expOrfn === 'function') {
+  if (typeof expOrFn === 'function') {
     this.getter = expOrfn
   } else {
     this.getter = this.parseGetter(expOrFn.trim())
@@ -20,6 +26,7 @@ Watcher.prototype = {
     var oldVal = this.value
     if (value !== oldVal) {
       this.value = value
+      // 执行Compile中绑定的回调，更新视图
       this.cb.call(this.vm, value, oldVal)
     }
   },
@@ -44,9 +51,9 @@ Watcher.prototype = {
     }
   },
   get: function () {
-    Dep.target = this
-    var value = this.getter.call(this.vm, this.vm)
-    Dep.target = null
+    Dep.target = this // 将当前订阅者指向自己
+    var value = this.getter.call(this.vm, this.vm) // 触发getter，添加自己到属性订阅器中
+    Dep.target = null // 添加完毕，重置
     return value
   },
   parseGetter: function (exp) {
