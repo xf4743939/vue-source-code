@@ -12,3 +12,12 @@
 ### Scope Hoisting
   **optimization.concatenateModules**
   1. Scope Hoisting会分析出模块之间的依赖关系，尽可能的把打包出来的模块合并到一个函数中去。
+## webpack高频面试题
+1. 前端代码为什么要进行构建和打包?
+2. model、chunk、bundle,分别什么意思,有和区别？
+3. loader和plugin区别？
+4. webpack如何实现懒加载
+5. webpack常见性能优化
+6. babel-runtime和babel-polyfill的区别
+
+  
