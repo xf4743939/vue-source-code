@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue 源码解析</title>
+    <!-- <script src="../../vue2.0//dist/vue.js"></script> -->
+  </head>
+  <body>
+    <div id="root">
+      <div>
+        <p>{{name}}</p>
+        <p>{{message}}</p>
+      </div>
+    </div>
+  </body>
+  <script>
+    let reg = /\{\{(.+?)\}\}/g
+    let root = document.querySelector('#root')
+    let data = {
+      name: '小许',
+      message: '小许要找工作',
+    }
+
+    compile(root, data)
+    function compile(template, data) {
+      let childNodes = template.childNodes
+      for (let i = 0; i < childNodes.length; i++) {
+        let nodeType = childNodes[i].nodeType
+        if (nodeType === 1) {
+          compile(childNodes[i], data)
+        } else if (nodeType === 3) {
+          let txt = childNodes[i].nodeValue
+          txt= txt.replace(reg, function (_, g) {
+            let key=g.trim()
+            let value = data[key]
+            return value
+          })
+          childNodes[i].nodeValue=txt 
+        }
+      }
+    }
+  </script>
+</html>

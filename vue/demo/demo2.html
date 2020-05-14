@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue 源码解析</title>
+    <!-- <script src="../../vue2.0//dist/vue.js"></script> -->
+  </head>
+  <body>
+    <div id="root">
+      <div>
+        <p>{{name}}</p>
+        <p>{{message}}</p>
+      </div>
+    </div>
+  </body>
+  <script>
+      function JGVue(options){
+         this._data=options.data
+         this._el=options.el
+         this.$el=this.templeteDom=document.querySelector(this._el)
+         // 渲染
+         this.render()
+      }
+      JGVue.prototype.render=function(){
+
+      }
+      JGVue.prototype.compiler=function(tmpNode){
+
+      }
+      JGVue.prototype.update=function(){
+        
+      }
+  </script>
+</html>
