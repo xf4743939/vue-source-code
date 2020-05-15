@@ -7,22 +7,39 @@
     <script src="../vue2.0/dist/vue.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <counter></counter>
+    </div>
     <!-- <script src="./demo.js"></script> -->
     <script>
+      Vue.component('counter',{
+        data(){
+          return {count:0}
+        },
+        template:'<button v-on:click="count++">计算点击次数{{count}}</button>'
+      })
+      // let childComp = {
+      //   template: '<div>{{msg}}</div>',
+      //   created() {
+      //     console.log('child created')
+      //   },
+      //   mounted() {
+      //     console.log('child mounted')
+      //   },
+      //   data() {
+      //     return {
+      //       msg: 'Hello Vue',
+      //     }
+      //   },
+      // }
+      // Vue.mixin({
+      //   created() {
+      //     debugger
+      //     console.log('parent created')
+      //   },
+      // })
       var app = new Vue({
         el: '#app',
-        render(createElement) {
-          return createElement(
-            'div',
-            {
-              attrs: {
-                id: '#app',
-              },
-            },
-            this.message
-          )
-        },
         data() {
           return {
             message: '学习vue源码',

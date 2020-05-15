@@ -1408,7 +1408,9 @@
       validateComponentName(key);
     }
   }
-
+/**
+ * 验证组件名称
+ * */ 
   function validateComponentName (name) {
     if (!new RegExp(("^[a-zA-Z][\\-\\.0-9_" + (unicodeRegExp.source) + "]*$")).test(name)) {
       warn(
@@ -1523,6 +1525,7 @@
     child,
     vm
   ) {
+    
     {
       checkComponents(child);
     }
@@ -1578,6 +1581,7 @@
     id,
     warnMissing
   ) {
+    debugger
     /* istanbul ignore if */
     if (typeof id !== 'string') {
       return
@@ -3183,7 +3187,7 @@
     if (isUndef(Ctor)) {
       return
     }
-
+debugger
     var baseCtor = context.$options._base;
 
     // plain options object: turn it into a constructor
@@ -4975,6 +4979,7 @@
       vm._isVue = true;
       // merge options
       if (options && options._isComponent) {
+        debugger
         // optimize internal component instantiation
         // since dynamic options merging is pretty slow, and none of the
         // internal component options needs special treatment.
@@ -5015,6 +5020,7 @@
   }
 
   function initInternalComponent (vm, options) {
+    
     var opts = vm.$options = Object.create(vm.constructor.options);
     // doing this because it's faster than dynamic enumeration.
     var parentVnode = options._parentVnode;
@@ -5130,6 +5136,7 @@
      * Class inheritance
      */
     Vue.extend = function (extendOptions) {
+      debugger
       extendOptions = extendOptions || {};
       var Super = this;
       var SuperId = Super.cid;
@@ -5207,12 +5214,13 @@
     }
   }
 
-  /*  */
-
+  /*注册组件*/
   function initAssetRegisters (Vue) {
     /**
      * Create asset registration methods.
      */
+    // ASSET_TYPES=[component,directive,filter]
+    debugger
     ASSET_TYPES.forEach(function (type) {
       Vue[type] = function (
         id,
@@ -5409,6 +5417,11 @@
     };
 
     Vue.options = Object.create(null);
+  // var ASSET_TYPES = [
+  //   'component',
+  //   'directive',
+  //   'filter'
+  // ];
     ASSET_TYPES.forEach(function (type) {
       Vue.options[type + 's'] = Object.create(null);
     });
@@ -6456,6 +6469,7 @@
     }
 
     return function patch (oldVnode, vnode, hydrating, removeOnly) {
+      
       if (isUndef(vnode)) {
         if (isDef(oldVnode)) { invokeDestroyHook(oldVnode); }
         return

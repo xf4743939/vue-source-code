@@ -56,6 +56,8 @@
 
 **响应式核心 Observer Dep Watcher**
 
+- 响应式核心是利用 Object.defineProperty 给对象的属性添加 getter 和 setter
+- Vue 会把 props、data 等变成响应式对象,在创建过程中,发生子属性也为对象则递归把该对象变成响应式
 - Observer 中进行响应式的绑定，在数据被读的时候，触发 get 方法，执行 Dep 来收集依赖，也就是收集 Watcher
 - 在数据被改的时候，触发 set 方法，通过对应的所有依赖(Watcher)，去执行更新。比如 watch 和 computed 就执行开发者自定义的回调方法。
 - compile 主要是解析模板指令,将模板中变量替换成数据,然后初始化渲染页面视图,并将指令对应的节点绑定更新函数,添加监听数据的订阅者,一旦数据有变动,收到通知,更新视图
@@ -84,7 +86,7 @@
 
 1. $emit/prop、$emit/on、$ref、provide/inject、$listen/\$on、事件中线 bus
 
-### 描述组件渲染和更新的过程(重点)
+### 描述组件渲染和更新的过程
 
 1. compile 编译解析指令替换节点内容，初始化视图,给绑定指令的节点添加订阅者,当数据更新更新视图
 2. 当更新后进行 diff 对比，传入到 patchf 函数中,渲染更新修改部分 dom

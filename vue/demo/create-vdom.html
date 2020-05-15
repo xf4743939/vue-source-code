@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>虚拟vnode </title>
+    <!-- <script src="../../vue2.0//dist/vue.js"></script> -->
+  </head>
+  <body>
+    <div id="root">
+      <div title="title1">hello1</div>
+      <div title="title2">hello2</div>
+      <div>hello3</div>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+      </ul>
+    </div>
+  </body>
+  <script>
+    // 虚拟dom
+    // 1. 怎么将真实dom 转化成虚拟dom
+    // 2. 怎么将vdom 转换为真正dom
+    // 思路深拷贝
+    class VNode {
+      constructor(tag, data, value, type) {
+        this.tag = tag && tag.toLowerCase()
+        this.data = data
+        this.value = value
+        this.type = type
+        this.children = []
+      }
+      appendChild(vnode) {
+        this.children.push(vnode)
+      }
+    }
+    /* 使用递归dom 元素生成虚拟dom */
+    function getNode(node) {
+      let nodeType = node.nodeType
+      let _vnode = null
+
+      if (nodeType === 1) {
+        let nodeName = node.nodeName
+        let attrs = node.attributes
+        let _attrObj = {}
+        for (let i = 0; i < attrs.length; i++) {
+          _attrObj[attrs[i].nodeName] = attrs[i].value
+        }
+        _vnode = new VNode(nodeName, _attrObj, undefined, nodeType)
+        let childNodes = node.childNodes
+        for (let i = 0; i < childNodes.length; i++) {
+          _vnode.appendChild(getNode(childNodes[i]))
+        }
+      } else if (nodeType === 3) {
+        _vnode = new VNode(undefined, undefined, node.nodeValue, nodeType)
+      }
+      return _vnode
+    }
+    let root = document.querySelector('#root')
+    let vnode = getNode(root)
+    console.log(vnode)
+    // 将vdom 转化为真正dom
+    function parseVNode(vnode) {
+      let type = vnode.type
+      let node=null
+      if (type === 1) {
+        node=document.createElement(vnode.tag)
+        let data=vnode.data
+        Object.keys(data).forEach(key=>{
+         let attrName=key
+         let attrValue=data[key]       
+         node.setAttribute(attrName,attrValue)
+        }) 
+        let children=vnode.children
+        children.forEach(subNode=>{
+          node.appendChild(parseVNode(subNode)) 
+        })
+      } else if (type === 3) {
+        return document.createTextNode(vnode.value)
+      }
+      return node
+    }
+    let dom=parseVNode(vnode)
+    console.log(dom)
+  </script>
+</html>
