@@ -9,38 +9,34 @@
     <!-- <script src="./fast.js"></script> -->
     <!-- <script src="./bubble.js"></script> -->
     <script>
-       var s= "Let's take LeetCode contest"
-       var arr=s.split('').reverse().join('')
-       
-       console.log(arr.split(' ').reverse().join(' '))
-      // let arr = [6, 1, 2, 7, 9, 3, 4, 5, 10, 8]
-      // console.log(mergeSort(arr))
-      // function mergeSort(arr) {
-      //   if (arr.length < 2) {
-      //     return arr
-      //   }
-      //   const mid = Math.floor(arr.length / 2)
-      //   const front = arr.slice(0, mid)
-      //   const end = arr.slice(mid)
-      //   return merge(mergeSort(front), mergeSort(end))
-      // }
-      // function merge(front, end) {
-      //   const temp = []
-      //   while (front.length && end.length) {
-      //     if (front[0] < end[0]) {
-      //       temp.push(front.shift())
-      //     } else {
-      //       temp.push(end.shift())
-      //     }
-      //   }
-      //   while (front.length) {
-      //     temp.push(front.shift())
-      //   }
-      //   while (end.length) {
-      //     temp.push(end.shift())
-      //   }
-      //   return temp
-      // }
+      var strs = ['flower', 'flow', 'flight']
+      function getPrefix(strs) {
+        if (strs === null || strs.length === 0) return ''
+        return preFix(strs)
+      }
+      function preFix(arr) {
+        debugger
+        let len = arr.length
+        if (len === 1) {
+          return arr[0]
+        }
+        let mid = Math.floor(len / 2);
+         let left = arr.slice(0, mid)
+         let right = arr.slice(mid, len)
+        return preFix2(preFix(left), preFix(right))
+      }
+      function preFix2(str1, str2) {
+        debugger
+        let j = 0
+        for (; j < str1.length && j < str2.length; j++) {
+          
+          if (str1.charAt(j) !== str2.charAt(j)) {
+            break
+          }
+        }
+        return str1.substring(0, j)
+      }
+      console.log(getPrefix(strs))
     </script>
   </body>
 </html>

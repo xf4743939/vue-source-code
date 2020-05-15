@@ -64,19 +64,41 @@
 2. 实现一个指令解析器 Compile,对每个元素节点的指令进行扫描和解析,根据指令模板替换数据，以及绑定相应的更新函数
 3. 实现一个 watcher,作为连接 Observer 和 compile 的桥梁，能够订阅并收到每个每个属性变动的通知，执行指令绑定相应回调函数,从而更新视图
 
-## vue高频面试题
+## vue 高频面试题
 
 ### v-show 和 v-if 区别
-1. v-show加载了节点v-if只有为真才加载节点,频繁切换用v-show
-### v-for中要用key
-1. 在diff对比中可以快速找对应节点,使用map映射而不是循环遍历，可以更快更效率
-2. 用key不会就地复用有状态不会造成数据错乱
-### vue组件生命周期(父子组件)
+
+1. v-show 加载了节点 v-if 只有为真才加载节点,频繁切换用 v-show
+
+### v-for 中要用 key
+
+1. 在 diff 对比中可以快速找对应节点,使用 map 映射而不是循环遍历，可以更快更效率
+2. 用 key 不会就地复用有状态不会造成数据错乱
+
+### vue 组件生命周期(父子组件)
+
 1. beforeCreate(创建前)、created(创建后)、beforeMount(插入前)、mounted(插入后)、beforeUpdate(更新前)、updated(更新后)、beforeDestory(销毁前)、destoryed(销毁后)
 2. 先父后子
-### vue组件如何通讯
-1. $emit/prop、$emit/on、$ref、provide/inject、$listen/$on、事件中线bus
-### 描述组件渲染和更新的过程
+
+### vue 组件如何通讯
+
+1. $emit/prop、$emit/on、$ref、provide/inject、$listen/\$on、事件中线 bus
+
+### 描述组件渲染和更新的过程(重点)
+
 1. compile 编译解析指令替换节点内容，初始化视图,给绑定指令的节点添加订阅者,当数据更新更新视图
-2. 当更新后进行diff对比，传入到patchf函数中,渲染更新修改部分dom
-### 双向数据绑定v-model的实现原理
+2. 当更新后进行 diff 对比，传入到 patchf 函数中,渲染更新修改部分 dom
+
+### 双向数据绑定 v-model 的实现原理
+
+### vue 组件化
+
+### vue 响应式
+
+### vdom 和 diff
+
+### 模板编译
+
+### 渲染过程
+
+### 前端路由
