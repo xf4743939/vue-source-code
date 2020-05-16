@@ -31,4 +31,7 @@
      3. jq callback
      4. vue 和 react 组件生命周期
      5. vue watch 
-     6. node.js http请求   
+     6. node.js http请求  s
+### 代理模式vs 装饰器模式
+   - 装饰器模式: 扩展功能,原有功能不变且可以直接使用
+   - 代理模式：显示原有功能,但是经过限制或者阉割之后的
