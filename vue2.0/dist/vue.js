@@ -1581,7 +1581,7 @@
     id,
     warnMissing
   ) {
-    debugger
+    
     /* istanbul ignore if */
     if (typeof id !== 'string') {
       return
@@ -3187,7 +3187,7 @@
     if (isUndef(Ctor)) {
       return
     }
-debugger
+
     var baseCtor = context.$options._base;
 
     // plain options object: turn it into a constructor
@@ -4979,7 +4979,7 @@ debugger
       vm._isVue = true;
       // merge options
       if (options && options._isComponent) {
-        debugger
+        
         // optimize internal component instantiation
         // since dynamic options merging is pretty slow, and none of the
         // internal component options needs special treatment.
@@ -5136,7 +5136,7 @@ debugger
      * Class inheritance
      */
     Vue.extend = function (extendOptions) {
-      debugger
+      
       extendOptions = extendOptions || {};
       var Super = this;
       var SuperId = Super.cid;
@@ -5220,7 +5220,7 @@ debugger
      * Create asset registration methods.
      */
     // ASSET_TYPES=[component,directive,filter]
-    debugger
+    
     ASSET_TYPES.forEach(function (type) {
       Vue[type] = function (
         id,
@@ -5309,11 +5309,13 @@ debugger
     },
 
     created: function created () {
+      debugger
       this.cache = Object.create(null);
       this.keys = [];
     },
 
     destroyed: function destroyed () {
+      debugger
       for (var key in this.cache) {
         pruneCacheEntry(this.cache, key, this.keys);
       }
@@ -5321,7 +5323,7 @@ debugger
 
     mounted: function mounted () {
       var this$1 = this;
-
+       
       this.$watch('include', function (val) {
         pruneCache(this$1, function (name) { return matches(val, name); });
       });
@@ -5331,6 +5333,7 @@ debugger
     },
 
     render: function render () {
+      debugger
       var slot = this.$slots.default;
       var vnode = getFirstComponentChild(slot);
       var componentOptions = vnode && vnode.componentOptions;

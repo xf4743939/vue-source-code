@@ -104,3 +104,10 @@
 ### 渲染过程
 
 ### 前端路由
+### vue 的nextTick原理
+ 1. vue用异步队列的方式来控制DOM更新和nextTick回调先后执行
+ 2. microtask因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕
+ 3. 因为兼容性问题，vue不得不做了microtask向macrotask的降级方案
+ **每次event loop的最后，会有一个UI render，也就是更新DOM**
+ * microtask有：Promise、MutationObserver，以及nodejs中的process.nextTick
+ * macrotask有：setTimeout, setInterval, setImmediate, I/O, UI rendering

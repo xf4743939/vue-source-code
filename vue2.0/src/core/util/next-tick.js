@@ -6,10 +6,12 @@ import { handleError } from './error'
 import { isIE, isIOS, isNative } from './env'
 
 export let isUsingMicroTask = false
-
+/* 存放异步执行回调 */
 const callbacks = []
+/* 一个标记位，如果已经有timerFunc被推送到任务队列中则不需要重复推送 */
 let pending = false
 
+/* 下一个tick时的回调 */
 function flushCallbacks () {
   pending = false
   const copies = callbacks.slice(0)
@@ -30,12 +32,13 @@ function flushCallbacks () {
 // where microtasks have too high a priority and fire in between supposedly
 // sequential events (e.g. #4521, #6690, which have workarounds)
 // or even between bubbling of the same event (#6566).
+/* 一个函数指针,指向函数将被推送到任务队列中，等到主线程任务执行完时，任务队列中timerFunc被调用 */
 let timerFunc
 
 // The nextTick behavior leverages the microtask queue, which can be accessed
 // via either native Promise.then or MutationObserver.
 // MutationObserver has wider support, however it is seriously bugged in
-// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
+// UIWebView in iOS >= 9.3.3 when triggered in touch event hand lers. It
 // completely stops working after triggering a few times... so, if native
 // Promise is available, we will use it:
 /* istanbul ignore next, $flow-disable-line */
