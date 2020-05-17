@@ -15,7 +15,7 @@
         return preFix(strs)
       }
       function preFix(arr) {
-        debugger
+        
         let len = arr.length
         if (len === 1) {
           return arr[0]
@@ -26,7 +26,7 @@
         return preFix2(preFix(left), preFix(right))
       }
       function preFix2(str1, str2) {
-        debugger
+
         let j = 0
         for (; j < str1.length && j < str2.length; j++) {
           

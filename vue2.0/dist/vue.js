@@ -5309,13 +5309,13 @@
     },
 
     created: function created () {
-      debugger
+      
       this.cache = Object.create(null);
       this.keys = [];
     },
 
     destroyed: function destroyed () {
-      debugger
+      
       for (var key in this.cache) {
         pruneCacheEntry(this.cache, key, this.keys);
       }
@@ -5333,7 +5333,6 @@
     },
 
     render: function render () {
-      debugger
       var slot = this.$slots.default;
       var vnode = getFirstComponentChild(slot);
       var componentOptions = vnode && vnode.componentOptions;
