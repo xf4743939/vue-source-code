@@ -66,6 +66,8 @@
 2. 实现一个指令解析器 Compile,对每个元素节点的指令进行扫描和解析,根据指令模板替换数据，以及绑定相应的更新函数
 3. 实现一个 watcher,作为连接 Observer 和 compile 的桥梁，能够订阅并收到每个每个属性变动的通知，执行指令绑定相应回调函数,从而更新视图
 
+----- 
+
 ## vue 高频面试题
 
 ### v-show 和 v-if 区别
@@ -86,7 +88,6 @@
 
 1. $emit/prop、$emit/on、$ref、provide/inject、$listen/\$on、事件中线 bus
 
-### 描述组件渲染和更新的过程
 
 1. compile 编译解析指令替换节点内容，初始化视图,给绑定指令的节点添加订阅者,当数据更新更新视图
 2. 当更新后进行 diff 对比，传入到 patchf 函数中,渲染更新修改部分 dom
@@ -94,10 +95,34 @@
 ### 双向数据绑定 v-model 的实现原理
 
 ### vue 组件化
+   1. 组件化基础
+      * 很久以前的组件化
+       1. asp、jsp、php 已经有组件化了
+       2. node.js也有组件化 
+      * 数据驱动视图
+        1. 传统组件,只是静态渲染，更新还要依赖于操作DOM 
+        2. 数据驱动视图-vue MVVM(更加注重业务开发)
+        3. 官网的图（vue）
 
 ### vue 响应式
-
+  * Object.defineProperty缺点
+    1. 深度监听需要递归,一次性计算量大
+    2. 无法监听(data)新增属性/删除属性(vue.set/vue.delete)
+    3. 无法原生监听数组,需要特殊处理
 ### vdom 和 diff
+* Dom操作非常消耗性能
+* 以前用jquery,可以自行控制DOM 操作的时机,手动调整
+* vue 和 react 数据驱动视图，如何有效控制Dom?
+  * 解决方案
+    * 有了一定复杂度，想减少计算次数比较难
+    * 能不能把计算,更多的转移为js计算?因为js执行速度很快
+    * vdom -用js模拟Dom结构,计算出最小的变更,操作Dom
+* 通过snabbdom学习vdom
+* 优化时间复杂度到O(n)
+  1. 只比较同一层级,不跨级比较
+  2. tap不相同,则直接删除掉重建,不再深度比较
+  3. tag 和 key,两者相同，则认为是相同节点,不在深度比较
+
 
 - 当 oldVnode 与 vnode 在 sameVnode 的时候才会进行 patchVnode,就是新旧 VNode 节点判断为同一节点的时候才会进行 patchVnode 这个过程,否则就是创建新 Dom,移除就 Dom
 - patchVnode 规则
@@ -106,8 +131,16 @@
   3.  如果老节点没有子节点而新节点存在子节点,先清空老节点点 Dom 的文本内容,然后为当前 Dom 节点加入子节点。
   4.  当新节点没有子节点而老节点有子节点的时候,则移除该 dom 节点的所有子节点
   5.  当新老节点都无子节点的时候,只是文本的替换
+- patch  
+- addNodes removevNodes
+- updateChildren(key的重要性)
+### vue.js 的 template 编译 /(描述组件渲染和更新的过程)
+  * vue template complier 将模板编译为render函数
+  * 执行render 函数生成vnode
 
-### vue.js 的 template 编译
+### 渲染过程
+
+### 前端路由
 
 ### vue.js 异步更新 Dom 策略及 nextTick
 
@@ -117,10 +150,10 @@
 
 ### keep-alive 组价使用及其实现原理
 
-### vue 组件间通信
-### 渲染过程
 
-### 前端路由
+
+
+
 ### vue 的nextTick原理
  1. vue用异步队列的方式来控制DOM更新和nextTick回调先后执行
  2. microtask因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕
