@@ -5315,11 +5315,13 @@
     },
 
     created: function created () {
+      
       this.cache = Object.create(null);
       this.keys = [];
     },
 
     destroyed: function destroyed () {
+      
       for (var key in this.cache) {
         pruneCacheEntry(this.cache, key, this.keys);
       }
@@ -5327,7 +5329,7 @@
 
     mounted: function mounted () {
       var this$1 = this;
-
+       
       this.$watch('include', function (val) {
         pruneCache(this$1, function (name) { return matches(val, name); });
       });

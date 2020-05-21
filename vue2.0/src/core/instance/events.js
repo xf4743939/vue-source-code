@@ -11,6 +11,7 @@ import { updateListeners } from '../vdom/helpers/index'
 
 export function initEvents (vm: Component) {
   vm._events = Object.create(null)
+  /**这个bool标志位来表明是否存在钩子 */
   vm._hasHookEvent = false
   // init parent attached events
   const listeners = vm.$options._parentListeners
@@ -51,6 +52,7 @@ export function updateComponentListeners (
 
 export function eventsMixin (Vue: Class<Component>) {
   const hookRE = /^hook:/
+  /* 监听一个自定义事件 */
   Vue.prototype.$on = function (event: string | Array<string>, fn: Function): Component {
     const vm: Component = this
     if (Array.isArray(event)) {

@@ -82,12 +82,16 @@ export default {
 
   render () {
     const slot = this.$slots.default
+    /* 得到slot插槽的第一个组件*/ 
     const vnode: VNode = getFirstComponentChild(slot)
+  
     const componentOptions: ?VNodeComponentOptions = vnode && vnode.componentOptions
     if (componentOptions) {
       // check pattern
+      /* 获取组件名称，优先使用 name 否则组件tag */
       const name: ?string = getComponentName(componentOptions)
       const { include, exclude } = this
+        /*name不在inlcude中或者再exlude中则直接返回vnode(没有取缓存)  */
       if (
         // not included
         (include && (!name || !matches(include, name))) ||

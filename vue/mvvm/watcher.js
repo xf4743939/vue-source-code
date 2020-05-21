@@ -5,6 +5,7 @@
  */
 
 function Watcher(vm, expOrFn, cb) {
+
   this.cb = cb
   this.vm = vm
   this.expOrFn = expOrFn
@@ -22,7 +23,7 @@ Watcher.prototype = {
     this.run()
   },
   run: function () {
-    var value = this.get()
+    var value = this.get() // 取到最新值
     var oldVal = this.value
     if (value !== oldVal) {
       this.value = value

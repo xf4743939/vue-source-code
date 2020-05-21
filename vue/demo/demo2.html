@@ -22,6 +22,18 @@
          // 渲染
          this.render()
       }
+      JGVue.prototype.mount=function(){
+         // 需要提供一个render 函数生成vnode
+         this.render=this.createRenderFn()
+         this.mountedComponent()
+      }
+      JGVue.prototype.mountedComponent=function(){
+          let mount=()=>{
+            this.update(this.render())
+          }
+          mount.call(this)
+      }
+
       JGVue.prototype.render=function(){
 
       }

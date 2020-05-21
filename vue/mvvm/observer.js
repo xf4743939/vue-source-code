@@ -1,4 +1,6 @@
+/* 响应式 对data 数据进行响应式绑定*/
 function Observer(data) {
+  
   this.data = data
   this.walk(data)
 }
@@ -29,7 +31,9 @@ Observer.prototype = {
           return
         }
         val=newVal
+        // 新的值object的话进行监听
         childObj=observe(newVal)
+        // 通知订阅者
         dep.notify()
       },
     })

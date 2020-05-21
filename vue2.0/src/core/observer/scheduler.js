@@ -114,6 +114,7 @@ function flushSchedulerQueue () {
   const activatedQueue = activatedChildren.slice()
   const updatedQueue = queue.slice()
 
+  /*重置调度者的状态*/
   resetSchedulerState()
 
   // call component updated and activated hooks
