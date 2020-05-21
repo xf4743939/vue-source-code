@@ -99,8 +99,25 @@
 
 ### vdom 和 diff
 
-### 模板编译
+- 当 oldVnode 与 vnode 在 sameVnode 的时候才会进行 patchVnode,就是新旧 VNode 节点判断为同一节点的时候才会进行 patchVnode 这个过程,否则就是创建新 Dom,移除就 Dom
+- patchVnode 规则
+  1.  若果新旧 VNode 都是静态的,同时它们的 key 相同(代表同一节点),并且新的 VNode 是 clone 或者标记了 once(v-once 属性,只渲染一次),那么只需要替换 elm 以及 componentInstance 即可
+  2.  新老节点均有 children 子节点,则对子节点进行 diff 操作,调用 updateChildren 也是 diff 核心
+  3.  如果老节点没有子节点而新节点存在子节点,先清空老节点点 Dom 的文本内容,然后为当前 Dom 节点加入子节点。
+  4.  当新节点没有子节点而老节点有子节点的时候,则移除该 dom 节点的所有子节点
+  5.  当新老节点都无子节点的时候,只是文本的替换
 
+### vue.js 的 template 编译
+
+### vue.js 异步更新 Dom 策略及 nextTick
+
+### 从 template 到 Dom(vue.js 源码角度看内部运行机制)
+
+### vuex 源码解析
+
+### keep-alive 组价使用及其实现原理
+
+### vue 组件间通信
 ### 渲染过程
 
 ### 前端路由

@@ -8,15 +8,16 @@
   </head>
   <body>
     <div id="app">
+      <div v-for="(item,index) in list" :key="index">{{item}}</div>
       <counter></counter>
     </div>
     <!-- <script src="./demo.js"></script> -->
     <script>
-      Vue.component('counter',{
-        data(){
-          return {count:0}
+      Vue.component('counter', {
+        data() {
+          return { count: 0 }
         },
-        template:'<button v-on:click="count++">计算点击次数{{count}}</button>'
+        template: '<button v-on:click="count++">计算点击次数{{count}}</button>',
       })
       // let childComp = {
       //   template: '<div>{{msg}}</div>',
@@ -43,9 +44,27 @@
         data() {
           return {
             message: '学习vue源码',
+            list: [1, 2, 3],
           }
         },
+        mounted() {
+          debugger
+          this.list.push(4)
+        },
       })
+      // const sharedPropertyDefinition = {
+      //   configurable: true,
+      //   enumerable: true,
+      // }
+      // function proxy(vm, sourceKey, key) {
+      //   sharedPropertyDefinition.get = function proxyGetter() {
+      //     return this[sourceKey][key]
+      //   }
+      //   sharedPropertyDefinition.set = function proxySetter(newVal) {
+      //     this[sourceKey][key] = newVal
+      //   }
+      //   Object.defineProperty(vm, key, sharedPropertyDefinition)
+      // }
     </script>
   </body>
 </html>

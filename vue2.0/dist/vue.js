@@ -874,8 +874,11 @@
    * Intercept mutating methods and emit events
    */
   methodsToPatch.forEach(function (method) {
+    
     // cache original method
     var original = arrayProto[method];
+ 
+    
     def(arrayMethods, method, function mutator () {
       var args = [], len = arguments.length;
       while ( len-- ) args[ len ] = arguments[ len ];
@@ -923,8 +926,10 @@
     this.value = value;
     this.dep = new Dep();
     this.vmCount = 0;
+    
     def(value, '__ob__', this);
     if (Array.isArray(value)) {
+      
       if (hasProto) {
         protoAugment(value, arrayMethods);
       } else {
@@ -4852,6 +4857,7 @@ console.log(res,'res')
   }
 
   function initMethods (vm, methods) {
+    debugger
     var props = vm.$options.props;
     for (var key in methods) {
       {
@@ -10820,6 +10826,7 @@ console.log(res,'res')
   }
 
   function genHandler (handler) {
+    debugger
     if (!handler) {
       return 'function(){}'
     }

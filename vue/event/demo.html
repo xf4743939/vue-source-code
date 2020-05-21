@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue 事件机制</title>
+    <script src="../../vue2.0//dist//vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="test1" @click="click1">
+        click1
+      </div>
+      <div id="test2" @click="click2">click2</div>
+      <my-component
+        v-on:click.native="nativeclick"
+        v-on:componenton="parentOn"
+      ></my-component>
+    </div>
+    <script>
+      var Child = {
+        template: `<div>A custom component</div>`,
+      }
+      Vue.component('my-component', {
+        name: 'my-component',
+        template: `<div>A custom component!<div @click.stop="toParent">test click</div></div>`,
+        components: {
+          Child: Child,
+        },
+        created() {
+        
+        },
+        methods: {
+          toParent() {
+            this.$emit('componenton', 'toParent')
+          },
+        },
+        mounted() {
+          console.log(this)
+        },
+      })
+      new Vue({
+        el: '#app',
+        data: function () {
+          return {
+            message: { name: 'sss' },
+            a: 1,
+          }
+        },
+        components: {
+          Child: Child,
+        },
+        methods: {
+          click1() {
+            console.log('click1')
+          },
+          click2() {
+            console.log('click2')
+          },
+          nativeclick() {
+            alert('nativeclick')
+          },
+          parentOn(value) {
+            console.log(value)
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

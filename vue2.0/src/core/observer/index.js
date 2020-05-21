@@ -85,6 +85,7 @@ export class Observer {
  * the prototype chain using __proto__
  */
 function protoAugment (target, src: Object) {
+  debugger
   /* eslint-disable no-proto */
   target.__proto__ = src
   /* eslint-enable no-proto */
@@ -96,6 +97,7 @@ function protoAugment (target, src: Object) {
  */
 /* istanbul ignore next */
 function copyAugment (target: Object, src: Object, keys: Array<string>) {
+  debugger
   for (let i = 0, l = keys.length; i < l; i++) {
     const key = keys[i]
     def(target, key, src[key])
