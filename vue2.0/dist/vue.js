@@ -874,8 +874,11 @@
    * Intercept mutating methods and emit events
    */
   methodsToPatch.forEach(function (method) {
+    
     // cache original method
     var original = arrayProto[method];
+ 
+    
     def(arrayMethods, method, function mutator () {
       var args = [], len = arguments.length;
       while ( len-- ) args[ len ] = arguments[ len ];
@@ -923,8 +926,10 @@
     this.value = value;
     this.dep = new Dep();
     this.vmCount = 0;
+    
     def(value, '__ob__', this);
     if (Array.isArray(value)) {
+      
       if (hasProto) {
         protoAugment(value, arrayMethods);
       } else {
@@ -1581,7 +1586,7 @@
     id,
     warnMissing
   ) {
-    debugger
+    
     /* istanbul ignore if */
     if (typeof id !== 'string') {
       return
@@ -3187,7 +3192,7 @@
     if (isUndef(Ctor)) {
       return
     }
-debugger
+
     var baseCtor = context.$options._base;
 
     // plain options object: turn it into a constructor
@@ -4850,6 +4855,7 @@ debugger
   }
 
   function initMethods (vm, methods) {
+    debugger
     var props = vm.$options.props;
     for (var key in methods) {
       {
@@ -4979,7 +4985,7 @@ debugger
       vm._isVue = true;
       // merge options
       if (options && options._isComponent) {
-        debugger
+        
         // optimize internal component instantiation
         // since dynamic options merging is pretty slow, and none of the
         // internal component options needs special treatment.
@@ -5136,7 +5142,7 @@ debugger
      * Class inheritance
      */
     Vue.extend = function (extendOptions) {
-      debugger
+      
       extendOptions = extendOptions || {};
       var Super = this;
       var SuperId = Super.cid;
@@ -5220,7 +5226,7 @@ debugger
      * Create asset registration methods.
      */
     // ASSET_TYPES=[component,directive,filter]
-    debugger
+    
     ASSET_TYPES.forEach(function (type) {
       Vue[type] = function (
         id,
@@ -10816,6 +10822,7 @@ debugger
   }
 
   function genHandler (handler) {
+    debugger
     if (!handler) {
       return 'function(){}'
     }

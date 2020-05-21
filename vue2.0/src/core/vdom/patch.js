@@ -32,6 +32,14 @@ export const emptyNode = new VNode('', {}, [])
 
 const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
 
+/*
+  判断两个VNode节点是否是同一个节点，需要满足以下条件
+  key相同
+  tag（当前节点的标签名）相同
+  isComment（是否为注释节点）相同
+  是否data（当前节点对应的对象，包含了具体的一些数据信息，是一个VNodeData类型，可以参考VNodeData类型中的数据信息）都有定义
+  当标签是<input>的时候，type必须相同
+*/
 function sameVnode (a, b) {
   return (
     a.key === b.key && (
@@ -48,7 +56,10 @@ function sameVnode (a, b) {
     )
   )
 }
-
+/*
+  判断当标签是<input>的时候，type是否相同
+  某些浏览器不支持动态修改<input>类型，所以他们被视为不同节点
+*/
 function sameInputType (a, b) {
   if (a.tag !== 'input') return true
   let i
@@ -445,6 +456,11 @@ export function createPatchFunction (backend) {
         oldEndVnode = oldCh[--oldEndIdx]
         newStartVnode = newCh[++newStartIdx]
       } else {
+      /*
+          生成一个key与旧VNode的key对应的哈希表（只有第一次进来undefined的时候会生成，也为后面检测重复的key值做铺垫）
+          比如childre是这样的 [{xx: xx, key: 'key0'}, {xx: xx, key: 'key1'}, {xx: xx, key: 'key2'}]  beginIdx = 0   endIdx = 2  
+          结果生成{key0: 0, key1: 1, key2: 2}
+        */
         if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)
         idxInOld = isDef(newStartVnode.key)
           ? oldKeyToIdx[newStartVnode.key]
@@ -506,6 +522,7 @@ export function createPatchFunction (backend) {
     index,
     removeOnly
   ) {
+    /* 两个Vnode 节点相同则直接返回 */
     if (oldVnode === vnode) {
       return
     }
@@ -530,6 +547,11 @@ export function createPatchFunction (backend) {
     // note we only do this if the vnode is cloned -
     // if the new node is not cloned it means the render functions have been
     // reset by the hot-reload-api and we need to do a proper re-render.
+    /*
+     如果新旧vnode 都是静态的同时它们key 相同 代表同一节点 
+     并且新的vnode是clone 或者标记了once(标记v-once属性，只渲染一次)
+     那么只需要替换elm以及componentInstance
+     */
     if (isTrue(vnode.isStatic) &&
       isTrue(oldVnode.isStatic) &&
       vnode.key === oldVnode.key &&
@@ -555,17 +577,22 @@ export function createPatchFunction (backend) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly)
       } else if (isDef(ch)) {
+      
         if (process.env.NODE_ENV !== 'production') {
           checkDuplicateKeys(ch)
         }
         if (isDef(oldVnode.text)) nodeOps.setTextContent(elm, '')
+        /*新老节点均有children子节点，则对子节点进行diff操作，调用updateChildren*/
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)
       } else if (isDef(oldCh)) {
+        /*当新节点没有子节点而老节点有子节点的时候，则移除所有ele的子节点*/
         removeVnodes(oldCh, 0, oldCh.length - 1)
       } else if (isDef(oldVnode.text)) {
+        /*当新老节点都无子节点的时候，只是文本的替换，因为这个逻辑中新节点text不存在，所以直接去除ele的文本*/
         nodeOps.setTextContent(elm, '')
       }
     } else if (oldVnode.text !== vnode.text) {
+         /*当新老节点text不一样时，直接替换这段文本*/
       nodeOps.setTextContent(elm, vnode.text)
     }
     if (isDef(data)) {
@@ -696,8 +723,9 @@ export function createPatchFunction (backend) {
       return node.nodeType === (vnode.isComment ? 8 : 3)
     }
   }
-
+ /*createPatchFunction的返回值，一个patch函数*/
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+     /*createPatchFunction的返回值，一个patch函数*/
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
       return
@@ -707,6 +735,7 @@ export function createPatchFunction (backend) {
     const insertedVnodeQueue = []
 
     if (isUndef(oldVnode)) {
+      
       // empty mount (likely as component), create new root element
       isInitialPatch = true
       createElm(vnode, insertedVnodeQueue)
@@ -715,6 +744,7 @@ export function createPatchFunction (backend) {
       const isRealElement = isDef(oldVnode.nodeType)
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
         // patch existing root node
+        /*是同一个节点的时候直接修改现有的节点*/
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
       } else {
         if (isRealElement) {
