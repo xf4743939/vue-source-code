@@ -1,6 +1,6 @@
 /* @flow */
 
-import type Watcher from './watcher'
+import  Watcher from './watcher'
 import { remove } from '../util/index'
 import config from '../config'
 

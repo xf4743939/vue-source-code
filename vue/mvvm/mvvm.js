@@ -9,6 +9,7 @@ function MVVM(options) {
     me._proxy(key)
   })
   this._initComputed()
+  
   observe(data, this)
   this.$compile = new Compile(options.el || document.body, this)
 }

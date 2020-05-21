@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>事件订阅</title>
+  </head>
+  <body>
+    <script>
+      var event = function () {
+        var eventObjs = {}
+        return {
+          /* 事件注册，可以连续注册多个事件 */
+          on: function (type, handler) {
+            (eventObjs[type] || (eventObjs[type] = [])).push(handler)
+          },
+          /* 移除事件，如果不带参数 移除所有事件，
+           *如果带参数，移除这个事件名下的所有事件
+           * 如果带有两个参数 移除某一事件的具体处理函数
+           */
+          off: function (type, handler) {
+            if (arguments.length === 0) {
+              eventObjs = {}
+            } else if (arguments.length === 1) {
+              eventObjs[type] = []
+            } else if(arguments.length===2){
+              let events=eventObjs[type]
+              if(!events)return 
+              for(let i=events.length;i>=0;i--){
+                if(events[i]=== handler){
+                  events.splice(i,1)
+                }
+              }
+            }
+          },
+          /* 触发事件 */
+          emit: function (type) {
+            let args=[].slice.call(arguments,1)
+            let _events=eventObjs[type]
+            if(!_events)return 
+            for(let i=0;i<_events.length;i++){
+              events[i].apply(null,args)
+            }
+          },
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -3,9 +3,9 @@
  *2. watcher自身必须有一个update()方法
  *3. 属性变动dep.notice 通知时 ，能调用自身update()方法，并触发compile中绑定的回调。
  */
-
+let watchId=0
 function Watcher(vm, expOrFn, cb) {
-
+  this.watchId=watchId++
   this.cb = cb
   this.vm = vm
   this.expOrFn = expOrFn
@@ -32,6 +32,7 @@ Watcher.prototype = {
     }
   },
   addDep: function (dep) {
+    
     // 1. 每次调用run()的时候会触发相应属性的getter
     // getter里面会触发dep.depend()，继而触发这里的addDep
     // 2. 假如相应属性的dep.id已经在当前watcher的depIds里，说明不是一个新的属性，仅仅是改变了其值而已
@@ -48,12 +49,12 @@ Watcher.prototype = {
     // 例如：当前watcher的是'child.child.name', 那么child, child.child, child.child.name这三个属性的dep都会加入当前watcher
     if (!this.depIds.hasOwnProperty(dep.id)) {
       dep.addSub(this)
-      this.depIds.push(dep.id) = dep
+      this.depIds[dep.id] = dep
     }
   },
   get: function () {
     Dep.target = this // 将当前订阅者指向自己
-    var value = this.getter.call(this.vm, this.vm) // 触发getter，添加自己到属性订阅器中
+    var value = this.getter.call(this.vm, this.vm) // 触发getter，添加自己到属性订阅器中  
     Dep.target = null // 添加完毕，重置
     return value
   },

@@ -109,11 +109,13 @@ var compileUtil = {
     var updaterFn = updater[dir + 'Updater']
     // 第一次初始化视图
     updaterFn && updaterFn(node, this._getVMVal(vm, exp))
+  
     // 实例化订阅者 该操作会再对应属性信息订阅器添加对应Watcher
-    new Watcher(vm,exp,function(node,value,oldValue){
+   let res= new Watcher(vm,exp,function(node,value,oldValue){
         // 一旦属性值有变化，会收到通知 执行更新函数，更新视图
         updaterFn && updaterFn(node,value,oldValue)  
     })
+    console.log(res,'res')
   },
   // 事件处理
   eventHandler:function(node,vm,exp,dir){

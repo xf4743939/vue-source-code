@@ -9,21 +9,21 @@ Observer.prototype = {
   walk: function (data) {
     var me = this
     Object.keys(data).forEach(function (key) {
-      defineReactive(data, key, data[key])
+      me.defineReactive(data, key, data[key])
     })
   },
   convert: function (key, val) {
     this.defineReactive(this.data, key, val)
   },
-  defineReactive: function (data, ley, val) {
+  defineReactive: function (data, key, val) {
     var dep = new Dep()
-    var childObj = observer(data)
+    // var childObj = observe(data)
     Object.defineProperty(data, key, {
       enumerable: true,
       configurable: true,
       get: function () {
         // 由于需要在闭包内添加watcher，所以通过Dep定义一个全局target属性，暂存watcher, 添加完移除
-        Dep.target && dep.addSub(Dep.target)
+        Dep.target && dep.depend(Dep.target)
         return val
       },
       set: function (newVal) {
@@ -41,7 +41,7 @@ Observer.prototype = {
 }
 
 function observe(data) {
-  if (!data || typeof data !== Object) {
+  if (!data || typeof data !== 'object') {
     return
   }
   return new Observer(data)
@@ -54,14 +54,16 @@ var uid = 0
 *作用依赖收集 并通知订阅者更新
  */
 function Dep() {
-  this.uid++
+  this.id=uid++
   this.subs = []
 }
 Dep.prototype = {
   addSub: function (sub) {
+    
     this.subs.push(sub)
   },
   depend: function () {
+
     Dep.target.addDep(this)
   },
   removeSub(sub) {
