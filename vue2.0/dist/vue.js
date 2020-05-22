@@ -5123,7 +5123,9 @@ console.log(res,'res')
   /*  */
 
   function initMixin$1 (Vue) {
+    /* mixin={destroyed:fn,beforeCreate:fn} */
     Vue.mixin = function (mixin) {
+      
       this.options = mergeOptions(this.options, mixin);
       return this
     };
@@ -5394,6 +5396,7 @@ console.log(res,'res')
   /*  */
 
   function initGlobalAPI (Vue) {
+    debugger
     // config
     var configDef = {};
     configDef.get = function () { return config; };

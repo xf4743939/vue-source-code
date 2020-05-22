@@ -1222,7 +1222,6 @@
     install.installed = true;
 
     _Vue = Vue;
-
     var isDef = function (v) { return v !== undefined; };
 
     var registerInstance = function (vm, callVal) {
@@ -1234,6 +1233,7 @@
 
     Vue.mixin({
       beforeCreate: function beforeCreate () {
+        debugger
         if (isDef(this.$options.router)) {
           this._routerRoot = this;
           this._router = this.$options.router;
@@ -2686,7 +2686,7 @@
 
   var VueRouter = function VueRouter (options) {
     if ( options === void 0 ) options = {};
-
+debugger
     this.app = null;
     this.apps = [];
     this.options = options;
