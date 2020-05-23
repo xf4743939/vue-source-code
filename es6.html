@@ -7,15 +7,31 @@
   </head>
   <body>
     <script>
-      var obj = {
-        foo: function () {
-          console.log(this)
+      
+     var obj={
+       name:"xiao",
+       age:2
+     }
+   
+     const proxyData=new Proxy(obj,{
+        get(target,key,receiver){
+          
+           console.log(receiver)
+           return Reflect.get(target,key,receiver)
         },
-      }
-
-      var xxx = obj.foo
-      obj.foo() //obj
-      xxx() //window
+        set(target,key,value,receiver){
+          console.log('setting:',receiver)
+          return Reflect.set(target,key,value,receiver)
+        },
+        defineProperty(target,key){
+          
+          return Reflect.deleteProperty(target,key)
+        }   
+     })
+     console.log(proxyData)
+     proxyData.name
+     proxyData.message='message'
+     delete proxyData.name
     </script>
   </body>
 </html>

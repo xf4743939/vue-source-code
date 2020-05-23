@@ -71,14 +71,16 @@
 ## vue 高频面试题
 
 ### v-show 和 v-if 区别
-
 1. v-show 加载了节点 v-if 只有为真才加载节点,频繁切换用 v-show
+2. v-show 通过css display 控制显示和隐藏
+3. v-if 组件真正渲染和销毁,而不是显示和隐藏
 
 ### v-for 中要用 key
 * 原理:vue在patch过程中通过key可以精准判断两个节点是否是同一个，从而避免频繁更新不同元素，使得整个patch过程更加高效，减少DOM操作量，提高性能
-1. key的作用主要是为了高效的更新虚拟DOM
-1. 在 diff 对比中可以快速找对应节点,使用 map 映射而不是循环遍历，可以更快更效率
-2. 用 key 不会就地复用有状态不会造成数据错乱
+*  key的作用主要是为了高效的更新虚拟DOM
+1. diff 通过tag 和key 来判断是否为 sameNode
+2. 减少渲染次数,提升渲染性能
+3. 用 key 不会就地复用有状态不会造成数据错乱
 
 ### vue 组件生命周期(父子组件)
 
@@ -86,15 +88,37 @@
 2. 先父后子
 
 ### vue 组件如何通讯
-
-1. $emit/prop、$emit/on、$ref、provide/inject、$listen/\$on、事件中线 bus
-
-
-1. compile 编译解析指令替换节点内容，初始化视图,给绑定指令的节点添加订阅者,当数据更新更新视图
-2. 当更新后进行 diff 对比，传入到 patchf 函数中,渲染更新修改部分 dom
+1. 父子组件 props和this.$emit
+2. 自定义事件 event.$on、event.$off、event.$emit
+3. vuex
+4. $refs
+5. provide/inject
+6. $listener/$attrs
+7. 事件中线
 
 ### 双向数据绑定 v-model 的实现原理
 * v-model 是一个语法糖,真正实现双向绑定还是依靠v-bind:绑定响应式数据,以及触发input事件并传递数据
+1. input 元素value=this.name
+2. 绑定input事件this.name=$event.target.value
+3. data 更新触发re-render
+### 为何组件data 必须是一个函数?
+1. 定义.vue 文件是一个class,每次使用实际是类的实例化(不然数据共享了)
+### ajax请求应该放在哪个生命周期
+1. mounted
+2. 放在mounted之前没有用,只会让逻辑更加混乱
+### 何时需要使用beforeDestory
+1. 解绑自定义事件event.$off
+2. 清楚定时器 
+3. 解除自定义的Dom事件,如 window.scroll
+### vue常见性能优化
+1. 合理利用computed
+2. v-for/key
+3. v-if/v-show
+4. 自定义事件和dom事件及时销毁
+5. data 层级不要太深
+6. 合理使用异步组件
+7. 合理使用keep-alive
+8. 使用vue-loader在开发环境做模板编译
 ### vue 组件化
    1. 组件化基础
       * 很久以前的组件化
@@ -111,7 +135,8 @@
     2. 无法监听(data)新增属性/删除属性(vue.set/vue.delete)
     3. 无法原生监听数组,需要特殊处理
 ### vdom 和 diff
-* Dom操作非常消耗性能
+* Dom操作非常消耗性能,所以使用VDOM，我们把计算转移为JS计算
+* 因为有了虚拟DOM，所以让Vue有了跨平台的能力
 * 以前用jquery,可以自行控制DOM 操作的时机,手动调整
 * vue 和 react 数据驱动视图，如何有效控制Dom?
   * 解决方案
@@ -124,22 +149,47 @@
   2. tap不相同,则直接删除掉重建,不再深度比较
   3. tag 和 key,两者相同，则认为是相同节点,不在深度比较
 
-
 - 当 oldVnode 与 vnode 在 sameVnode 的时候才会进行 patchVnode,就是新旧 VNode 节点判断为同一节点的时候才会进行 patchVnode 这个过程,否则就是创建新 Dom,移除就 Dom
 - patchVnode 规则
-  1.  若果新旧 VNode 都是静态的,同时它们的 key 相同(代表同一节点),并且新的 VNode 是 clone 或者标记了 once(v-once 属性,只渲染一次),那么只需要替换 elm 以及 componentInstance 即可
-  2.  新老节点均有 children 子节点,则对子节点进行 diff 操作,调用 updateChildren 也是 diff 核心
-  3.  如果老节点没有子节点而新节点存在子节点,先清空老节点点 Dom 的文本内容,然后为当前 Dom 节点加入子节点。
-  4.  当新节点没有子节点而老节点有子节点的时候,则移除该 dom 节点的所有子节点
-  5.  当新老节点都无子节点的时候,只是文本的替换
+  1. 新老节点相同，直接return
+  2. 若果新旧 VNode 都是静态的,同时它们的 key 相同(代表同一节点),并且新的 VNode 是 clone 或者标记了 once(v-once 属性,只渲染一次),那么只需要替换 elm 以及 componentInstance 即可
+  3. 当VNode是文本节点，直接setTextContent来设置text,若不是文本节点者执行4-7
+  4. 新老节点均有 children 子节点,则对子节点进行 diff 操作,调用 updateChildren 也是 diff 核心
+  5. 如果老节点没有子节点而新节点存在子节点,先清空老节点点 Dom 的文本内容,然后为当前 Dom 节点加入子节点。
+  6. 当新节点没有子节点而老节点有子节点的时候,则移除该 dom 节点的所有子节点
+  7. 当新老节点都无子节点的时候,只是文本的替换
 - patch  
 - addNodes removevNodes
 - updateChildren(key的重要性)
 ### vue.js 的 template 编译 /(描述组件渲染和更新的过程)
   * vue template complier 将模板编译为render函数
   * 执行render 函数生成vnode
+  * 模板不是Html,有指令、插值、js表达式、能实现判断、循环
+  * html是标签语言,只有js才能实现判读、循环(图灵完备的)
+  * 因此，模板一定是转换为某种js代码,即编译模板。
+  * with 语法
+  * 模板到render 函数,再到vnode,再到渲染和更新
+  * vue组件可以用render 代替template
+### 组件渲染和更新的过程
+ - 过程
+    * 初次渲染
+      1. 解析模板为render函数(或再开发环境已完成)
+      2. 触发响应式，监听data属性的getter的依赖收集，也即是往dep里面添加watcher的过程
+      3. 执行render函数，生成vnode，patch(elm,vnode)
+    * 更新过程
+      1. 修改data，setter(必需是初始渲染已经依赖过的)调用Dep.notify()，将通知它内部的所有的Watcher对象进行视图更新
+      2. 重新执行render函数，生成newVnode
+      3. 然后就是patch的过程(diff算法)
+    * 异步渲染($nextTick)
+      1. 汇总data 的修改,一次性更新函数
+      2. 减少Dom操作次数,提高性能    
+    1. new vue()后会调用_init 函数进行初始化，初始化生命周期、事件、
+    props、methods、data、computed、watch
+    2. 模板编译 vue-template-complier (compile 编译 分为 parse、optimize 与 generate 三个阶段)
+    3. 响应式
+       1. 首先我们一开始会进行响应式初始化，也即是我们开始前的哪个init过程，通过observer (value) 方法，然后通过defineReactive()方法遍历，对每个对象的每个属性进行setter和getter初始化。
+       2. 依赖收集：我们在闭包中增加了一个 Dep 类的对象，用来收集 Watcher 对象。在对象被「读」的时候，会触发 reactiveGetter 函数把当前的 Watcher 对象，收集到 Dep 类中去。之后如果当该对象被「写」的时候，则会触发 reactiveSetter 方法，通知 Dep 类调用 notify 来触发所有 Watcher 对象的 update 方法更新对应视图。
 
-### 渲染过程
 
 ### 前端路由
 
@@ -151,10 +201,6 @@
 
 ### keep-alive 组价使用及其实现原理
 
-
-
-
-
 ### vue 的nextTick原理
  1. vue用异步队列的方式来控制DOM更新和nextTick回调先后执行
  2. microtask因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕
@@ -163,7 +209,7 @@
  * microtask有：Promise、MutationObserver，以及nodejs中的process.nextTick
  * macrotask有：setTimeout, setInterval, setImmediate, I/O, UI rendering
 ### vue事件机制
-### vue中keep-alive实现原理
+
 ###  VNode
   * createElement用来创建一个虚拟节点。当data上已经绑定__ob__的时候，代表该对象已经被Oberver过了，所以创建一个空节点。tag不存在的时候同样创建一个空节点。当tag不是一个String类型的时候代表tag是一个组件的构造类，直接用new VNode创建。当tag是String类型的时候，如果是保留标签，则用new VNode创建一个VNode实例，如果在vm的option的components找得到该tag，代表这是一个组件，否则统一用new VNode创建。
 ### 发布订阅模式
@@ -177,3 +223,6 @@
        1. 可以连续订阅
        2. 移除某一个类型事件
        3. 移除某一个类型事件的一个函数
+### vue 升级内容
+* 全部用ts重写(响应式、vdom、模板编译)
+* 性能提升,代码量减少

@@ -4,42 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../vue2.0/dist//vue.js"></script>
-    <script src="../vue-router//dist//vue-router.js"></script>
+    <!-- <script src="../vue2.0/dist//vue.js"></script>
+    <script src="../vue-router//dist//vue-router.js"></script> -->
     <!-- <script src="./myRouter.js"></script> -->
   </head>
   <body>
     <div id="app">
       <h1>hello app</h1>
-      <router-link to="/foo">Go to Foo</router-link>
+      <button id="btn">click me</button>
+      <!-- <router-link to="/foo">Go to Foo</router-link>
       <router-link to="/bar">go to bar</router-link>
-      <!-- 路由匹配到的组件将渲染在这里 -->
-      <router-view></router-view>
+    
+      <router-view></router-view> -->
     </div>
     <script>
-
-      const Foo = { template: '<div>foo</div>' }
-      const Bar = { template: '<div>bar</div>' }
-      const routes = [
-        {
-          path: '/foo',
-          component: Foo,
-        },
-        {
-          path: '/bar',
-          component: Bar,
-        },
-      ]
-      const router=new VueRouter({
-        routes
+      window.onpopstate=function(event){
+          console.log(event,'event')
+      }
+      window.addEventListener('DOMContentLoaded',()=>{
+        console.log(location.pathname)
       })
-      //  const router=new MyRouter(routes)
-      // router.install(Vue)
-      // debugger
+      document.getElementById('btn').addEventListener('click',()=>{
+        const state={
+          name:'page1'
+        }
+        // location.href='#/user'
+        history.pushState(state,'page1','page1')
+      })
+      // const Foo = { template: '<div>foo</div>' }
+      // const Bar = { template: '<div>bar</div>' }
+      // const routes = [
+      //   {
+      //     path: '/foo',
+      //     component: Foo,
+      //   },
+      //   {
+      //     path: '/bar',
+      //     component: Bar,
+      //   },
+      // ]
+      // const router=new VueRouter({
+      //   routes
+      // })
+      // //  const router=new MyRouter(routes)
+      // // router.install(Vue)
+      // // debugger
    
-      const app=new Vue({
-        router
-      }).$mount('#app')
+      // const app=new Vue({
+      //   router
+      // }).$mount('#app')
     </script>
   </body>
 </html>
