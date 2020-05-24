@@ -2,15 +2,33 @@ const path = require('path')
 const autoprefixer = require('autoprefixer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')  // 将CSS提取为独立的文件的插件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
-  optimization: {
+  optimization: { //优化
+    splitChunks:{
+       chunk:"all",
+       cacheGroup:{
+         vendors:{
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+         },
+         default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+       }  
+    },
     minimizer: [
-      // new UglifyJsPlugin(),
+      new UglifyJsPlugin({
+        sourceMap:true,
+        cache:false,
+        parallel:true //使用多进程并行运行来提高构建速度
+      }),
       new OptimizeCssAssetsPlugin(),
     ],
   },
@@ -19,7 +37,13 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
+    port:3000,
+    progress:true,
+    compress:true,
     contentBase: './dist',
+  },
+  externals:{
+   jquery:'$'
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -27,11 +51,19 @@ module.exports = {
       filename: 'main.css',
     }),
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: 'webpack 学习啊',
       template: './src/index.html',
       filename: 'index.html',
+      minify:{ // 压缩html 文件
+        removeAttributeQuotes: true,
+        removeComments:true, // 移除Html中注释
+        collapseWhitespace:true, //删除空白符
+        minifyCSS:true, // 压缩内联css
+        minifyJS: true
+      },
       inject: true, // 所有javascript资源插入到body元素的底部
     }),
+    // 注入全局
     new webpack.ProvidePlugin({
       $: 'jquery',
     }),
@@ -44,7 +76,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'postcss-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ],
       },
       {
         test: /\.less$/,

@@ -9,34 +9,52 @@
     <!-- <script src="./fast.js"></script> -->
     <!-- <script src="./bubble.js"></script> -->
     <script>
-      var strs = ['flower', 'flow', 'flight']
-      function getPrefix(strs) {
-        if (strs === null || strs.length === 0) return ''
-        return preFix(strs)
+      function Node(data,left,right){
+          this.data=data
+          this.left=left
+          this.right=right
       }
-      function preFix(arr) {
-        
-        let len = arr.length
-        if (len === 1) {
-          return arr[0]
+      Node.prototype={
+        show:function(){
+          console.log(this.data)
         }
-        let mid = Math.floor(len / 2);
-         let left = arr.slice(0, mid)
-         let right = arr.slice(mid, len)
-        return preFix2(preFix(left), preFix(right))
       }
-      function preFix2(str1, str2) {
-        
-        let j = 0
-        for (; j < str1.length && j < str2.length; j++) {
-          
-          if (str1.charAt(j) !== str2.charAt(j)) {
-            break
-          }
+      function Tree(){
+         this.root=null
+      }
+      Tree.prototype={
+        insert:function(data){
+           var node =new Node(data,null,null)
+           if(!this.root){
+             this.root=node
+             return
+           }
+           var current=this.root
+           var parent=null;
+           while(current){
+              parent=current
+              if(data<parent.data){
+                current=parent.left
+                if(!current){
+                  parent.left=node
+                  return
+                }
+              }else{
+                 current=parent.right
+                 if(!current){
+                  parent.right=node
+                   return
+                 }
+              }
+           }
         }
-        return str1.substring(0, j)
       }
-      console.log(getPrefix(strs))
+      let tree=new Tree()
+      let arr=[3,8,2,1,6,7,9,5,0,4]
+      arr.forEach(item=>{
+        tree.insert(item)
+      })
+      console.log(tree.root)
     </script>
   </body>
 </html>
